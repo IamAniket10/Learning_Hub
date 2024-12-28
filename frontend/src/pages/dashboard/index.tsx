@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { courseService } from "@/services/courseService";
-import { Course, User } from "@/types";
+import { Course } from "@/types";
 import { useAuth } from "@/context/AuthContext";
 
 export default function Dashboard() {

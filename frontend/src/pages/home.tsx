@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 const HomePage = () => {
   const { user } = useAuth();
-  const router = useRouter();
+  //const router = useRouter();
   
   const features = [
     {

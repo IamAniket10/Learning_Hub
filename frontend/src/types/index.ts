@@ -1,4 +1,4 @@
-export type User = {
+export interface User {
     _id: string;
     username: string;
     email: string;
@@ -13,3 +13,10 @@ export interface Course {
     duration: string;
     instructor: string;
 };
+
+export interface SignupData {
+    username: string;
+    email: string;
+    password: string;
+    role: 'user' | 'admin';
+  };

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useAuth } from "@/context/AuthContext";
 import Link from 'next/link';
 import { Mail, Lock, User, ArrowRight } from 'lucide-react';
+import { SignupData } from "@/types";
 
 export default function Signup() {
     const [formData, setFormData] = useState({
@@ -27,9 +28,10 @@ export default function Signup() {
         e.preventDefault();
         setError('');
         try {
-            await signup(formData);
+            await signup(formData as SignupData);
             router.push('/dashboard');
-        } catch (err: any) {
+        } catch (error: unknown) {
+            const err = error as Error;
             setError(err.message);
         }
     };

@@ -17,8 +17,9 @@ export default function Login() {
         try {
             await login(email, password);
             router.push('/dashboard');
-        } catch (err: any) {
-            setError(err.message);
+        } catch (err: unknown) {
+            const error = err as Error;
+            setError(error.message);
         }
     };
 

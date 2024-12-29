@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Course } from "../types";
 //import { headers } from "next/headers";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
@@ -23,7 +24,7 @@ export const courseService = {
         return response.data;
     },
 
-    createCourse: async (courseData: any) => {
+    createCourse: async (courseData: Partial<Course>) => {
         const token = localStorage.getItem('token');
         const response = await axios.post(COURSES_URL, courseData, {
             headers: { Authorization: `Bearer ${token}` }
@@ -31,7 +32,7 @@ export const courseService = {
         return response.data;
     },
 
-    updateCourse: async (id: string, courseData: any) => {
+    updateCourse: async (id: string, courseData: Partial<Course>) => {
         const token = localStorage.getItem('token');
         const response = await axios.put(`${COURSES_URL}/${id}`, courseData, {
             headers: { Authorization: `Bearer ${token}` }

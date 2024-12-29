@@ -1,7 +1,8 @@
 import React from 'react';
 import { ArrowRight, BookOpen, Users, Clock, Shield } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'next/router';
+//import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -35,26 +36,26 @@ const HomePage = () => {
     if (user) {
       return (
         <div className="flex justify-center gap-4">
-          <a 
+          <Link 
             href="/courses" 
             className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition"
           >
             Browse Courses
-          </a>
+          </Link>
           {user.role === 'admin' ? (
-            <a 
+            <Link 
               href="/dashboard" 
               className="bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-700 transition"
             >
               Go to Dashboard
-            </a>
+            </Link>
           ) : (
-            <a 
+            <Link 
               href="/courses/my-courses" 
               className="bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-700 transition"
             >
               My Courses
-            </a>
+            </Link>
           )}
         </div>
       );
@@ -62,18 +63,18 @@ const HomePage = () => {
 
     return (
       <div className="flex justify-center gap-4">
-        <a 
+        <Link 
           href="/signup" 
           className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition"
         >
           Get Started
-        </a>
-        <a 
+        </Link>
+        <Link 
           href="/courses" 
           className="bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-700 transition"
         >
           Browse Courses
-        </a>
+        </Link>
       </div>
     );
   };
@@ -136,13 +137,13 @@ const HomePage = () => {
               <p className="text-xl mb-8 text-orange-100">
                 Join thousands of students already learning on our platform
               </p>
-              <a 
+              <Link 
                 href="/signup" 
                 className="inline-flex items-center bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition"
               >
                 Get Started Today
                 <ArrowRight className="ml-2 w-5 h-5" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

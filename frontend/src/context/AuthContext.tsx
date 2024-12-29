@@ -1,12 +1,12 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { User } from '@/types';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
+import { User, SignupData, AuthResponse, APIError } from '@/types';
 
 type AuthContextType = {
     user: User | null;
     loading: boolean;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
-    signup: (data: any) => Promise<void>;
+    signup: (data: SignupData) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -17,7 +17,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
     // Check authentication status on mount and after any updates
-    const checkAuthStatus = async () => {
+    const checkAuthStatus = useCallback(async () => {
         const token = localStorage.getItem('token');
         if (!token) {
             setLoading(false);
@@ -36,7 +36,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 const data = await response.json();
                 setUser(data.data.user);
             } else {
-                // If token is invalid, clear storage
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
                 setUser(null);
@@ -47,13 +46,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } finally {
             setLoading(false);
         }
-    };
+    }, [API_BASE_URL]);
 
     useEffect(() => {
         checkAuthStatus();
-    }, []);
+    }, [checkAuthStatus]);
 
-    const login = async (email: string, password: string) => {
+    const login = async (email: string, password: string): Promise<void> => {
         try {
             setLoading(true);
             const response = await fetch(`${API_BASE_URL}/users/login`, {
@@ -61,7 +60,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
             });
-            const data = await response.json();
+            const data: AuthResponse = await response.json();
 
             if (!response.ok) {
                 throw new Error(data.message || 'Login failed');
@@ -70,9 +69,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.data.user));
             setUser(data.data.user);
-            return data;
+
         } catch (error) {
-            console.error('Login failed:', error);
+            const err = error as Error | APIError;
+            console.error('Login failed:', err);
             throw error;
         } finally {
             setLoading(false);

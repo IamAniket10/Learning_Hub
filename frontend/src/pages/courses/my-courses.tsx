@@ -36,7 +36,7 @@ export default function MyCourses() {
                 <h1 className='text-2xl font-bold text-orange-500'>My Enrolled Courses</h1>
                 {enrolledCourses.length === 0 ? (
                     <div className='text-center py-10'>
-                        <p className='text-gray-600'>You haven't enrolled in any courses yet.</p>
+                        <p className='text-gray-600'>You haven&apos;t enrolled in any courses yet.</p>
                         <button
                             onClick={() => router.push('/courses')}
                             className='mt-4 text-primary-500 hover:text-primary-700'

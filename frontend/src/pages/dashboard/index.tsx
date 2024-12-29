@@ -27,9 +27,10 @@ export default function Dashboard() {
             setError(null);
             const response = await courseService.getAllCourses();
             setCourses(response.data.courses);
-        } catch (error: any) {
-            setError(error.message || 'Failed to fetch courses');
-            console.error('Failed to fetch courses:', error);
+        } catch (error: unknown) {
+            const err = error as Error;
+            setError(err.message || 'Failed to fetch courses');
+            console.error('Failed to fetch courses:', err);
         } finally {
             setIsLoading(false);
         }
@@ -40,9 +41,10 @@ export default function Dashboard() {
             try {
                 await courseService.deleteCourse(courseId);
                 fetchCourses();
-            } catch (error: any) {
-                console.error('Failed to delete course:', error);
-                setError(error.message || 'Failed to delete course');
+            } catch (error: unknown) {
+                const err = error as Error;
+                console.error('Failed to delete course:', err);
+                setError(err.message || 'Failed to delete course');
             }
         }
     };

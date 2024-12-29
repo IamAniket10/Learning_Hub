@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { courseService } from '@/services/courseService';
 import { Course } from '@/types';
@@ -13,22 +13,23 @@ export default function CourseDetail() {
     const { id } = router.query;
     const { user } = useAuth();
     
-    useEffect(() => {
-        if(id) {
-            fetchCourses();
-        }
-    }, [id]);
-
-    const fetchCourses = async () => {
+    const fetchCourses = useCallback(async () => {
         try {
             const response = await courseService.getCourse(id as string);
             setCourse(response.data.course);
         } catch (error) {
-            console.error('Failed to fetch course:', error);
+            const err = error as Error;
+            console.error('Failed to fetch course:', err);
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [id]);
+
+    useEffect(() => {
+        if(id) {
+            fetchCourses();
+        }
+    }, [id, fetchCourses]);
 
 
     const handleEnroll = async () => {

@@ -20,3 +20,16 @@ export interface SignupData {
     password: string;
     role: 'user' | 'admin';
   };
+
+  export interface AuthResponse {
+    token: string;
+    data: {
+      user: User;
+    };
+    message?: string;
+  }
+  
+  export interface APIError {
+    message: string;
+    status?: number;
+  }

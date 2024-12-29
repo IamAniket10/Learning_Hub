@@ -4,6 +4,8 @@ import { courseService } from '@/services/courseService';
 import { Course } from '@/types';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { useAuth } from '@/context/AuthContext';
+import axios from 'axios';
+
 
 export default function CourseDetail() {
     const [course, setCourse] = useState<Course | null> (null);
@@ -47,13 +49,19 @@ export default function CourseDetail() {
             console.log('Enrollment response:', response); // For debugging
             
             router.push('/courses/my-courses');
-        } catch (error: any) {
-            console.error('Enrollment error:', error.response?.data || error.message);
-            if (error.response?.status === 401) {
-                // If unauthorized, redirect to login
-                router.push('/login');
+        } catch (error: unknown) {
+            const err = error as Error;
+            if (axios.isAxiosError(err)) {
+                console.error('Enrollment error:', err.response?.data || err.message);
+                if (err.response?.status === 401) {
+                    // If unauthorized, redirect to login
+                    router.push('/login');
+                } else {
+                    alert(err.response?.data?.message || 'Failed to enroll in course');
+                }
             } else {
-                alert(error.response?.data?.message || 'Failed to enroll in course');
+                console.error('Enrollment error:', err.message);
+                alert('Failed to enroll in course');
             }
         } finally {
             setEnrolling(false);

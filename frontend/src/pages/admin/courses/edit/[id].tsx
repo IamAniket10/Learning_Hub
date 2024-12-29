@@ -11,12 +11,6 @@ export default function EditCourse() {
     const router = useRouter();
     const { id } = router.query;
 
-    useEffect(() => {
-        if (id) {
-            fetchCourse();
-        }
-    }, [id]);
-
     const fetchCourse = async () => {
         try {
             const response = await courseService.getCourse(id as string);
@@ -26,6 +20,12 @@ export default function EditCourse() {
             alert('Failed to fetch course');
         }
     };
+
+    useEffect(() => {
+        if (id) {
+            fetchCourse();
+        }
+    }, [id, fetchCourse]);
 
     const handleSubmit = async (data: Partial<Course>) => {
         setIsLoading(true);

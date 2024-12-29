@@ -85,7 +85,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(null);
     };
 
-    const signup = async (data: any) => {
+    const signup = async (data: SignupData) => {
         try {
             setLoading(true);
             const response = await fetch(`${API_BASE_URL}/users/signup`, {

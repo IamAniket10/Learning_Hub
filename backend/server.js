@@ -14,7 +14,7 @@ connectDB();
 const app = express();
 
 app.use(cors({
-    origin: process.env.NODE_NEV === 'production' ? 'your-production-domain.com' : ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    origin: process.env.NODE_NEV === 'production' ? '[process.env.FRONTEND_URL]' : ['http://localhost:3000', 'http://127.0.0.1:3000'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']

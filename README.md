@@ -135,6 +135,10 @@ GET /api/users/enrolled-courses - Get user's enrolled courses
 - 🌐 Backend: Render
 - 🍃 Database: MongoDB Atlas
 
+## Author
+
+- Created by [Aniket Kadam](https://github.com/IamAniket10/)
+
 ## Contributing
 - Feel free to submit issues and enhancement requests.
 ## License
